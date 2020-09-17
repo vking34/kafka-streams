@@ -5,8 +5,10 @@ import org.apache.kafka.common.serialization.Serdes;
 import org.apache.kafka.streams.KafkaStreams;
 import org.apache.kafka.streams.StreamsBuilder;
 import org.apache.kafka.streams.StreamsConfig;
+import org.apache.kafka.streams.Topology;
 import org.apache.kafka.streams.kstream.KStream;
 import org.apache.kafka.streams.kstream.KTable;
+import org.apache.kafka.streams.kstream.Produced;
 
 import java.util.Arrays;
 import java.util.Properties;
@@ -38,8 +40,12 @@ public class WordCountApp {
                 // 6. count words
                 .count();
 
-        wordCounts.toStream().to("word-count-output");
+        wordCounts.toStream().to("word-count-output", Produced.with(Serdes.String(), Serdes.Long()));
+        Topology topology = builder.build();
+        KafkaStreams streams = new KafkaStreams(topology, config);
+        streams.start();
+        System.out.println(streams.toString());
 
-        KafkaStreams streams = new KafkaStreams(builder, config);
+        Runtime.getRuntime().addShutdownHook(new Thread(streams::close));
     }
 }
