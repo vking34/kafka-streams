@@ -40,7 +40,36 @@
     - Increased local storage consumption compared to the (partitioned) KTable because the entire topic is tracked.
     - Increased network and Kafka broker load compared to the (partitioned) KTable because the entire topic is read.
 
+#
 ## Duality
+
+__Stream as Table__: a stream can be considered a changelog of table, where each data record in the stream captuers a state change of the table.
+
+__Table as Stream__: a table can be considered a snapshot, at a point in time, of the lastest value for each key in a stream.
+
+![](https://cdn.confluent.io/wp-content/uploads/changelog.gif)
+
+1. Transforming KTable to KStream
+```
+KStream<String, String> stream = table.toStream();
+```
+
+2. Transforming KStream to KTable
+    1. Chain a groupByKey() and aggregation functions (count, aggregate, reduce)
+    ```
+    KTable<String, Long> table = colorStream.groupByKey().count();
+    ```
+    2. Write back to Kafka and read as KTable
+    ```
+    // write to kafka
+    stream.to("imtermediary-topic");
+    
+    // read from kafka as table
+    KStream<String, Long> table = builder.table("imtermediary-topic")
+    ```
+
+#
+## Statleless & Stateful
 1. __Stateless__: the result of transformation only depends on the data-point you process.
     - Example: multiply value by 2
         - 1 -> 2
@@ -49,7 +78,9 @@
     - Example: Count operation
         - hello -> 1
         - hello -> 2
-        
+
+
+#
 ## Operations
 1. Map / MapValues
     - Takes 1 record and produces 1 (modified) record
