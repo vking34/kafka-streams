@@ -1,7 +1,4 @@
-# Word Count Application
-A simple application is used to demonstrate how Kafka Streams works.
-
-## Core Concepts
+# Core Concepts
 
 ### Topology
 ![](./refs/img/streams-architecture-topology.jpg)
@@ -38,10 +35,6 @@ It could be ```consumer``` and ```producer```.
 ## Packaging
 - Default compilation in java only includes the code you write in the .jar file, without the dependencies.
 - Maven has a plugin to allow us to package all your code + the dependencies into one jar, called the __fat jar__.
-
-## Demo
-1. Run commands in ```kafka-streams-commands``` directory.
-2. Run app
 
 ## Scaling
 - Just run multiple instances of stream processor application.

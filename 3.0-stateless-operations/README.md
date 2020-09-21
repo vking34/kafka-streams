@@ -81,7 +81,7 @@ KStream<String, String> stream = table.toStream();
 
 
 #
-## Operations
+## Stateless Operations
 1. Map / MapValues
     - Takes 1 record and produces 1 (modified) record
     - MapValues:
