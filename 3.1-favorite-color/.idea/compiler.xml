@@ -8,6 +8,7 @@
         <outputRelativeToContentRoot value="true" />
         <module name="02-favorite-color" />
         <module name="03-favorite-color" />
+        <module name="3.1-favorite-color" />
       </profile>
     </annotationProcessing>
   </component>

@@ -31,7 +31,7 @@ KGroupedTable<String, Integer> groupedTable = table.groupBy(
 ## Aggregate
 
 - KGroupStream:
-    - Need 4 arguments:
+    - Need arguments:
         - initializer (of any type)
         - a "adder" aggregation function
         - a State Store name
