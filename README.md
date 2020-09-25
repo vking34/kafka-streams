@@ -23,6 +23,11 @@ We use it to process and analyze data stored in Kafka. It relied on important st
 #
 ### Follow to the directories in order to learn concepts step by step. 
 
+## Next steps
+Practice and try to get Confluent certificate:
+- https://www.confluent.io/certification/
+- https://assets.confluent.io/m/3be6a7e566940163/original/20200331-Exam_Confluent_Certified_Developer.pdf?_ga=2.21638651.1389401420.1600915560-227635828.1599539143
+
 #
 ## References:
 1. https://www.udemy.com/course/kafka-streams/
