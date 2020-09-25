@@ -21,20 +21,23 @@ public class BankBalanceApp {
 
     public static void main(String[] args) {
 
-        System.out.println(System.getenv("APPLICATION_ID_CONFIG"));
+        // create json serde
+        final Serializer<JsonNode> jsonSerializer = new JsonSerializer();
+        final Deserializer<JsonNode> jsonDeserializer = new JsonDeserializer();
+        final Serde<JsonNode> jsonSerde = Serdes.serdeFrom(jsonSerializer, jsonDeserializer);
+
+        // streams config
         Properties config = new Properties();
-        StreamsBuilder builder = new StreamsBuilder();
-        Serializer<JsonNode> jsonSerializer = new JsonSerializer();
-        Deserializer<JsonNode> jsonDeserializer = new JsonDeserializer();
-        Serde<JsonNode> jsonSerde = Serdes.serdeFrom(jsonSerializer, jsonDeserializer);
         config.put(StreamsConfig.APPLICATION_ID_CONFIG, System.getenv("APPLICATION_ID_CONFIG"));
         config.put(StreamsConfig.BOOTSTRAP_SERVERS_CONFIG, System.getenv("BOOTSTRAP_SERVERS_CONFIG"));
-        config.put(StreamsConfig.PROCESSING_GUARANTEE_CONFIG, StreamsConfig.EXACTLY_ONCE);
+        config.put(StreamsConfig.PROCESSING_GUARANTEE_CONFIG, StreamsConfig.EXACTLY_ONCE);  // Exactly once processing!!!
         config.put(StreamsConfig.DEFAULT_KEY_SERDE_CLASS_CONFIG, Serdes.String().getClass());
         config.put(StreamsConfig.DEFAULT_VALUE_SERDE_CLASS_CONFIG, Serdes.String().getClass());
-        config.put(StreamsConfig.CACHE_MAX_BYTES_BUFFERING_CONFIG, "0");
+        config.put(StreamsConfig.CACHE_MAX_BYTES_BUFFERING_CONFIG, "0");    // not for production
         config.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest");
 
+        // build topology
+        StreamsBuilder builder = new StreamsBuilder();
         // step 1: Read from topic
         KStream<String, JsonNode> transactionKStream = builder.stream(System.getenv("TOPIC"), Consumed.with(Serdes.String(), jsonSerde));
         transactionKStream.peek((key, value) -> {   // check consumer message

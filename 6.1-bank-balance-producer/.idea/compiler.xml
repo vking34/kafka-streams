@@ -8,6 +8,7 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="bank-balance-producer" />
+        <module name="6.1-bank-balance-producer" />
       </profile>
     </annotationProcessing>
   </component>
